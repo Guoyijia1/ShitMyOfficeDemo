@@ -20,7 +20,7 @@ public class PlayerPoop : MonoBehaviour
     public float freezeDuration = 2f; // Duration to freeze the object in seconds
     private float distance;
 
-    public GameObject PoopPrefab;
+    
 
     private bool isFrozen = false;
 
@@ -104,7 +104,7 @@ public class PlayerPoop : MonoBehaviour
                     {
                         //Debug.Log("Poop Freeze!");
                         //StartCoroutine(FreezeObjectForDuration());
-                        SpawnObject();
+                        
                         StartCoroutine(ThrowPoop());
                     }
                 }
@@ -164,19 +164,7 @@ public class PlayerPoop : MonoBehaviour
 
     }
 
-    void SpawnObject()
-    {
-        // Check if the prefab is assigned
-        if (PoopPrefab != null)
-        {
-            // Instantiate the object at the player's position (you may adjust the position as needed)
-            Instantiate(PoopPrefab, transform.position, Quaternion.identity);
-        }
-        else
-        {
-            Debug.LogError("Object prefab not assigned!");
-        }
-    }
+    
 
     /*
     IEnumerator FreezeObjectForDuration()

@@ -25,7 +25,8 @@ public class Projectile : MonoBehaviour
 
         if (sampleTime >= 1f)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
