@@ -15,14 +15,19 @@ public class PlayerPoop : MonoBehaviour
 
     private ArcadeKart arcadeKart;
 
-    private int poopCollect = 10;
+    
     public Transform movingObject; // Assign your moving object in the Inspector
     public float freezeDistance = 10f; // Distance threshold to freeze the object
-    public KeyCode freezeKey = KeyCode.N;
+    public KeyCode freezeKey = KeyCode.C;
     public float freezeDuration = 2f; // Duration to freeze the object in seconds
     private float distance;
+    public KeyCode feverKey = KeyCode.V;
 
-    
+    [Header("Poop")] 
+    [SerializeField] private GameObject poopUI;
+    [SerializeField] private int poopCollect = 5;
+
+    private bool feverActivated = false;
 
     private bool isFrozen = false;
 
@@ -42,15 +47,20 @@ public class PlayerPoop : MonoBehaviour
 
         // Try to throw poop
         StartCoroutine(CheckThrowPoop());
+
+        Debug.Log(poopCollect);
         
     }
 
     // Poop collection
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Poop"))
+        if (other.CompareTag("Poop") && poopCollect <= 5 && !feverActivated)
         {
+            poopUI.transform.GetChild(poopCollect).gameObject.SetActive(false);
+        
             poopCollect++;
+            poopUI.transform.GetChild(poopCollect).gameObject.SetActive(true);
             poopNum.text = poopCollect.ToString();
             Destroy(other.gameObject);
         }
@@ -59,13 +69,16 @@ public class PlayerPoop : MonoBehaviour
     // Check if the player have enough poop to trigger Fever mode
     IEnumerator CheckFever()
     {
-        if(Input.GetKeyDown(KeyCode.V))
+        if(Input.GetKeyDown(feverKey))
         {
-            if (poopCollect >= 5)
+            if (poopCollect == 5)
             {
-                poopCollect -= 5;
+               
                 poopNum.text = poopCollect.ToString();
+                poopUI.transform.GetChild(0).gameObject.SetActive(false);
+                poopUI.transform.GetChild(6).gameObject.SetActive(true);
                 StartCoroutine(Fever());
+                
             } else
             {
                 feverCheck.text = "You Don't Have Enough Poop!";
@@ -79,10 +92,15 @@ public class PlayerPoop : MonoBehaviour
     // Fever mode triggered
     IEnumerator Fever()
     {
+        poopCollect -= 5;
+        feverActivated = true;
         SetBaseStatsFromDatabase(FeverModeData());
 
         feverCheck.text = "FEVER MODE";
         yield return new WaitForSeconds(5f);
+        poopUI.transform.GetChild(0).gameObject.SetActive(true);
+        poopUI.transform.GetChild(6).gameObject.SetActive(false);
+        feverActivated = false;
         feverCheck.text = string.Empty;
 
         SetBaseStatsFromDatabase(NormalModeData());
@@ -168,6 +186,7 @@ public class PlayerPoop : MonoBehaviour
         feverCheck.text = "THROW POOP!";
         yield return new WaitForSeconds(3f);
         feverCheck.text = string.Empty;
+        
 
     }
 
