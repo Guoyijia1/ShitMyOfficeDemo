@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using KartGame.KartSystems;
 
 public class PlayerPoop : MonoBehaviour
 {
@@ -11,9 +12,10 @@ public class PlayerPoop : MonoBehaviour
     [Header("Fever Mode")]
     [SerializeField] private TMP_Text feverCheck;
 
-    
 
-    private int poopCollect = 2;
+    private ArcadeKart arcadeKart;
+
+    private int poopCollect = 10;
     public Transform movingObject; // Assign your moving object in the Inspector
     public float freezeDistance = 10f; // Distance threshold to freeze the object
     public KeyCode freezeKey = KeyCode.N;
@@ -26,7 +28,7 @@ public class PlayerPoop : MonoBehaviour
 
     void Start()
     {
-        
+        arcadeKart = GetComponent<ArcadeKart>();
     }
 
     // Update is called once per frame
@@ -57,7 +59,7 @@ public class PlayerPoop : MonoBehaviour
     // Check if the player have enough poop to trigger Fever mode
     IEnumerator CheckFever()
     {
-        if(Input.GetKeyDown(KeyCode.M))
+        if(Input.GetKeyDown(KeyCode.V))
         {
             if (poopCollect >= 5)
             {
@@ -77,9 +79,14 @@ public class PlayerPoop : MonoBehaviour
     // Fever mode triggered
     IEnumerator Fever()
     {
+        SetBaseStatsFromDatabase(FeverModeData());
+
         feverCheck.text = "FEVER MODE";
         yield return new WaitForSeconds(5f);
         feverCheck.text = string.Empty;
+
+        SetBaseStatsFromDatabase(NormalModeData());
+
     }
 
 
@@ -164,7 +171,64 @@ public class PlayerPoop : MonoBehaviour
 
     }
 
-    
+
+
+    private ArcadeKart.Stats FeverModeData()
+    {
+        // Replace this with your actual database call to fetch FeverModeData
+        // Example:
+        ArcadeKart.Stats feverStats = new ArcadeKart.Stats
+        {
+            TopSpeed = 30f,
+            Acceleration = 30f,
+
+            AccelerationCurve = 4f,
+            Braking = 10f,
+            ReverseAcceleration = 5f,
+            ReverseSpeed = 5f,
+            Steer = 5f,
+            CoastingDrag = 4f,
+            Grip = .95f,
+            AddedGravity = 1f,
+            // Add other stat assignments as needed for FeverModeData
+        };
+
+        return feverStats;
+    }
+
+
+    private ArcadeKart.Stats NormalModeData()
+    {
+        // Replace this with your actual database call to fetch NormalModeData
+        // Example:
+        ArcadeKart.Stats normalStats = new ArcadeKart.Stats
+        {
+            TopSpeed = 15f,
+            Acceleration = 10f,
+
+            AccelerationCurve = 4f,
+            Braking = 10f,
+            ReverseAcceleration = 5f,
+            ReverseSpeed = 5f,
+            Steer = 5f,
+            CoastingDrag = 4f,
+            Grip = .95f,
+            AddedGravity = 1f,
+            // Add other stat assignments as needed for NormalModeData
+        };
+
+        return normalStats;
+    }
+
+
+    private void SetBaseStatsFromDatabase(ArcadeKart.Stats stats)
+    {
+        if (arcadeKart != null)
+        {
+            arcadeKart.baseStats = stats;
+        }
+    }
+
 
     /*
     IEnumerator FreezeObjectForDuration()
