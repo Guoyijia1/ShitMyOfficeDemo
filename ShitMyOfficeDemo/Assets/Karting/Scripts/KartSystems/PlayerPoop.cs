@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using KartGame.KartSystems;
+using UnityEngine.UI;
 
 public class PlayerPoop : MonoBehaviour
 {
@@ -26,14 +27,18 @@ public class PlayerPoop : MonoBehaviour
     [Header("Poop")] 
     [SerializeField] private GameObject poopUI;
     [SerializeField] private int poopCollect = 5;
+    [SerializeField] private Image feverBar;
+    [SerializeField] private float feverCountdown = 5f;
+    [SerializeField] private bool onStartFever;
 
     private bool feverActivated = false;
 
     private bool isFrozen = false;
-
+    
     void Start()
     {
         arcadeKart = GetComponent<ArcadeKart>();
+        onStartFever = true;
     }
 
     // Update is called once per frame
@@ -48,7 +53,11 @@ public class PlayerPoop : MonoBehaviour
         // Try to throw poop
         StartCoroutine(CheckThrowPoop());
 
-        Debug.Log(poopCollect);
+        if (feverActivated)
+        {
+            feverCountdown -= Time.deltaTime;
+            feverBar.fillAmount = feverCountdown / 5f;
+        }
         
     }
 
@@ -69,13 +78,22 @@ public class PlayerPoop : MonoBehaviour
     // Check if the player have enough poop to trigger Fever mode
     IEnumerator CheckFever()
     {
+        if (onStartFever)
+        {
+            
+            yield return new WaitForSeconds(4f);
+            onStartFever = false;
+            poopUI.transform.GetChild(6).gameObject.SetActive(true);
+            StartCoroutine(Fever());
+
+        }
         if(Input.GetKeyDown(feverKey))
         {
             if (poopCollect == 5)
             {
                
                 poopNum.text = poopCollect.ToString();
-                poopUI.transform.GetChild(0).gameObject.SetActive(false);
+                poopUI.transform.GetChild(5).gameObject.SetActive(false);
                 poopUI.transform.GetChild(6).gameObject.SetActive(true);
                 StartCoroutine(Fever());
                 
@@ -97,9 +115,12 @@ public class PlayerPoop : MonoBehaviour
         SetBaseStatsFromDatabase(FeverModeData());
 
         feverCheck.text = "FEVER MODE";
+        
         yield return new WaitForSeconds(5f);
         poopUI.transform.GetChild(0).gameObject.SetActive(true);
         poopUI.transform.GetChild(6).gameObject.SetActive(false);
+        feverCountdown = 5f;
+        feverBar.fillAmount = 1f;
         feverActivated = false;
         feverCheck.text = string.Empty;
 
