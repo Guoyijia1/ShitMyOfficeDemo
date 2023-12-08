@@ -19272,6 +19272,9 @@ MonoBehaviour:
   freezeDistance: 10
   freezeKey: 98
   freezeDuration: 2
+  feverKey: 118
+  poopUI: {fileID: 89494221}
+  poopCollect: 5
 --- !u!114 &774352114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33165,17 +33168,17 @@ PrefabInstance:
     - target: {fileID: 9039385316222035947, guid: 1316659a11b7c4b229efd50b3e8d2b75,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -203.99
+      value: -146.8
       objectReference: {fileID: 0}
     - target: {fileID: 9039385316222035947, guid: 1316659a11b7c4b229efd50b3e8d2b75,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.45
+      value: -14.4
       objectReference: {fileID: 0}
     - target: {fileID: 9039385316222035947, guid: 1316659a11b7c4b229efd50b3e8d2b75,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 49.8
+      value: 100.7
       objectReference: {fileID: 0}
     - target: {fileID: 9039385316222035947, guid: 1316659a11b7c4b229efd50b3e8d2b75,
         type: 3}
@@ -48864,6 +48867,9 @@ MonoBehaviour:
   freezeDistance: 10
   freezeKey: 110
   freezeDuration: 2
+  feverKey: 118
+  poopUI: {fileID: 1495706170}
+  poopCollect: 5
 --- !u!114 &1910917312
 MonoBehaviour:
   m_ObjectHideFlags: 0
