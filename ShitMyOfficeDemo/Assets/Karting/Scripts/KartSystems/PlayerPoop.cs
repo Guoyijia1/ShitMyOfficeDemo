@@ -80,9 +80,9 @@ public class PlayerPoop : MonoBehaviour
     {
         if (onStartFever)
         {
-            
-            yield return new WaitForSeconds(4f);
             onStartFever = false;
+            yield return new WaitForSeconds(4f);
+            
             poopUI.transform.GetChild(6).gameObject.SetActive(true);
             StartCoroutine(Fever());
 
