@@ -264,6 +264,15 @@ namespace KartGame.KartSystems
             }
         }
 
+        /// <summary>
+        /// 我自己写的code
+        /// </summary>
+
+        private void Update()
+        {
+            
+        }
+
         void AddTrailToWheel(WheelCollider wheel)
         {
             GameObject trailRoot = Instantiate(DriftTrailPrefab, gameObject.transform, false);

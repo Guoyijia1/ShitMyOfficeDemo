@@ -56,7 +56,7 @@ public class TimeManager : MonoBehaviour
             if (TimeRemaining <= 0)
             {
                 TimeRemaining = 0;
-                IsOver = true;
+                //IsOver = true;
             }
         }
     }
