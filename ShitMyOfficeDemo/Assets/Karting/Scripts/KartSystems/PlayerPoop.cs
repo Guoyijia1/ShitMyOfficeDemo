@@ -34,7 +34,9 @@ public class PlayerPoop : MonoBehaviour
     private bool feverActivated = false;
 
     private bool isFrozen = false;
-    
+
+    private bool isColliding = false;
+
     void Start()
     {
         arcadeKart = GetComponent<ArcadeKart>();
@@ -58,7 +60,13 @@ public class PlayerPoop : MonoBehaviour
             feverCountdown -= Time.deltaTime;
             feverBar.fillAmount = feverCountdown / 5f;
         }
-        
+
+        if (isColliding)
+        {
+            // Move the player backward for 1 second
+            StartCoroutine(MovePlayerBackward());
+        }
+
     }
 
     // Poop collection
@@ -212,11 +220,36 @@ public class PlayerPoop : MonoBehaviour
     }
 
 
+    private IEnumerator MovePlayerBackward()
+    {
+        SetBaseStatsFromDatabase(StepBackModeData());
+        GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -5f);
+
+        yield return new WaitForSeconds(1f);
+
+        SetBaseStatsFromDatabase(NormalModeData());
+
+        // Reset the collision flag
+        isColliding = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("wall"))
+        {
+            // Set the collision flag to true
+            isColliding = true;
+        }
+    }
+
+
+
+
+
 
     private ArcadeKart.Stats FeverModeData()
     {
         // Replace this with your actual database call to fetch FeverModeData
-        // Example:
         ArcadeKart.Stats feverStats = new ArcadeKart.Stats
         {
             TopSpeed = 30f,
@@ -240,7 +273,6 @@ public class PlayerPoop : MonoBehaviour
     private ArcadeKart.Stats NormalModeData()
     {
         // Replace this with your actual database call to fetch NormalModeData
-        // Example:
         ArcadeKart.Stats normalStats = new ArcadeKart.Stats
         {
             TopSpeed = 15f,
@@ -259,6 +291,30 @@ public class PlayerPoop : MonoBehaviour
 
         return normalStats;
     }
+
+
+    private ArcadeKart.Stats StepBackModeData()
+    {
+        // Replace this with your actual database call to fetch NormalModeData
+        ArcadeKart.Stats stepbackStats = new ArcadeKart.Stats
+        {
+            TopSpeed = 0f,
+            Acceleration = -30f,
+
+            AccelerationCurve = 4f,
+            Braking = 10f,
+            ReverseAcceleration = 5f,
+            ReverseSpeed = 5f,
+            Steer = 5f,
+            CoastingDrag = 4f,
+            Grip = .95f,
+            AddedGravity = 1f,
+            // Add other stat assignments as needed for NormalModeData
+        };
+
+        return stepbackStats;
+    }
+
 
 
     private void SetBaseStatsFromDatabase(ArcadeKart.Stats stats)
