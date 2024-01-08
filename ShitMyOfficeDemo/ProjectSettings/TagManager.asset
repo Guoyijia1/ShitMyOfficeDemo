@@ -8,6 +8,7 @@ TagManager:
   - Poop
   - PositionA
   - StartingLine
+  - wall
   layers:
   - Default
   - TransparentFX

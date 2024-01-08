@@ -23272,6 +23272,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ModularTrackStraight
       objectReference: {fileID: 0}
+    - target: {fileID: 1579282987822437358, guid: 941fac9249b6442cdb2d3f23472128e2,
+        type: 3}
+      propertyPath: m_TagString
+      value: wall
+      objectReference: {fileID: 0}
     - target: {fileID: 1579282987822796750, guid: 941fac9249b6442cdb2d3f23472128e2,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -37423,6 +37428,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1910917312}
+    - targetCorrespondingSourceObject: {fileID: 4810912518991602691, guid: 19954de30401f73428254541a9ad156e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1910917313}
   m_SourcePrefab: {fileID: 100100000, guid: 19954de30401f73428254541a9ad156e, type: 3}
 --- !u!4 &1304724376 stripped
 Transform:
@@ -54577,6 +54586,19 @@ MonoBehaviour:
   TurnInputName: Hotizontal
   AccelerateButtonName: Accelerate
   BrakeButtonName: Brake
+--- !u!114 &1910917313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910917296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e7969e5e0eae4f83a3428d33702f781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepBackDistance: 2
 --- !u!1 &1913319486
 GameObject:
   m_ObjectHideFlags: 0
