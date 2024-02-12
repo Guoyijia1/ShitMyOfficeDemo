@@ -13,6 +13,7 @@ public class PlayerPoop : MonoBehaviour
     [Header("Fever Mode")]
     [SerializeField] private TMP_Text feverCheck;
 
+    public ArcadeKart.Stats feverStats = new ArcadeKart.Stats { };
 
     private ArcadeKart arcadeKart;
 
@@ -37,10 +38,13 @@ public class PlayerPoop : MonoBehaviour
 
     private bool isColliding = false;
 
+    private ArcadeKart.Stats normalStats;
+
     void Start()
     {
         arcadeKart = GetComponent<ArcadeKart>();
         onStartFever = true;
+        normalStats = arcadeKart.baseStats;
     }
 
     // Update is called once per frame
@@ -120,7 +124,7 @@ public class PlayerPoop : MonoBehaviour
     {
         poopCollect -= 5;
         feverActivated = true;
-        SetBaseStatsFromDatabase(FeverModeData());
+        SetBaseStatsFromDatabase(this.feverStats);
 
         feverCheck.text = "FEVER MODE";
         
@@ -132,7 +136,7 @@ public class PlayerPoop : MonoBehaviour
         feverActivated = false;
         feverCheck.text = string.Empty;
 
-        SetBaseStatsFromDatabase(NormalModeData());
+        SetBaseStatsFromDatabase(normalStats);
 
     }
 
@@ -227,7 +231,7 @@ public class PlayerPoop : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        SetBaseStatsFromDatabase(NormalModeData());
+        SetBaseStatsFromDatabase(normalStats);
 
         // Reset the collision flag
         isColliding = false;
@@ -247,50 +251,50 @@ public class PlayerPoop : MonoBehaviour
 
 
 
-    private ArcadeKart.Stats FeverModeData()
-    {
-        // Replace this with your actual database call to fetch FeverModeData
-        ArcadeKart.Stats feverStats = new ArcadeKart.Stats
-        {
-            TopSpeed = 30f,
-            Acceleration = 30f,
+    //private ArcadeKart.Stats FeverModeData()
+    //{
+    //    // Replace this with your actual database call to fetch FeverModeData
+    //    ArcadeKart.Stats feverStats = new ArcadeKart.Stats
+    //    {
+    //        TopSpeed = 30f,
+    //        Acceleration = 30f,
 
-            AccelerationCurve = 4f,
-            Braking = 10f,
-            ReverseAcceleration = 5f,
-            ReverseSpeed = 5f,
-            Steer = 5f,
-            CoastingDrag = 4f,
-            Grip = .95f,
-            AddedGravity = 1f,
-            // Add other stat assignments as needed for FeverModeData
-        };
+    //        AccelerationCurve = 4f,
+    //        Braking = 10f,
+    //        ReverseAcceleration = 5f,
+    //        ReverseSpeed = 5f,
+    //        Steer = 5f,
+    //        CoastingDrag = 4f,
+    //        Grip = .95f,
+    //        AddedGravity = 1f,
+    //        // Add other stat assignments as needed for FeverModeData
+    //    };
 
-        return feverStats;
-    }
+    //    return feverStats;
+    //}
 
 
-    private ArcadeKart.Stats NormalModeData()
-    {
-        // Replace this with your actual database call to fetch NormalModeData
-        ArcadeKart.Stats normalStats = new ArcadeKart.Stats
-        {
-            TopSpeed = 15f,
-            Acceleration = 10f,
+    //private ArcadeKart.Stats NormalModeData()
+    //{
+    //    // Replace this with your actual database call to fetch NormalModeData
+    //    ArcadeKart.Stats normalStats = new ArcadeKart.Stats
+    //    {
+    //        TopSpeed = 15f,
+    //        Acceleration = 10f,
 
-            AccelerationCurve = 4f,
-            Braking = 10f,
-            ReverseAcceleration = 5f,
-            ReverseSpeed = 5f,
-            Steer = 5f,
-            CoastingDrag = 4f,
-            Grip = .95f,
-            AddedGravity = 1f,
-            // Add other stat assignments as needed for NormalModeData
-        };
+    //        AccelerationCurve = 4f,
+    //        Braking = 10f,
+    //        ReverseAcceleration = 5f,
+    //        ReverseSpeed = 5f,
+    //        Steer = 5f,
+    //        CoastingDrag = 4f,
+    //        Grip = .95f,
+    //        AddedGravity = 1f,
+    //        // Add other stat assignments as needed for NormalModeData
+    //    };
 
-        return normalStats;
-    }
+    //    return normalStats;
+    //}
 
 
     private ArcadeKart.Stats StepBackModeData()
