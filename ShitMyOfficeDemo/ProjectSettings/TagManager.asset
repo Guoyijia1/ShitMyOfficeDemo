@@ -10,6 +10,10 @@ TagManager:
   - StartingLine
   - player1
   - player2
+  - Checkpoint
+  - wall
+  - targetP1
+  - tagetP2
   layers:
   - Default
   - TransparentFX
@@ -26,8 +30,8 @@ TagManager:
   - CrashObject
   - Kart
   - TrainingCheckpoints
-  - 
-  - 
+  - TargetP1
+  - TargetP2
   - 
   - 
   - 

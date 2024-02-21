@@ -19,11 +19,20 @@ public class PlayerPoop : MonoBehaviour
 
     
     public Transform movingObject; // Assign your moving object in the Inspector
-    public float freezeDistance = 10f; // Distance threshold to freeze the object
+    
+
     public KeyCode freezeKey = KeyCode.C;
-    public float freezeDuration = 2f; // Duration to freeze the object in seconds
+    
     private float distance;
     public KeyCode feverKey = KeyCode.V;
+
+    [Header("Throw Poop")]
+    public float freezeDistance = 10f; // Distance threshold to freeze the object
+    public float freezeDuration = 2f; // Duration to freeze the object in seconds
+    [SerializeField] private Canvas throwTarget;
+    [SerializeField] private ArcadeKart.Stats freezeStats = new ArcadeKart.Stats { };
+    [SerializeField] private GameObject poopExplodePrefab;
+
 
     [Header("Poop")] 
     [SerializeField] private GameObject poopUI;
@@ -40,24 +49,36 @@ public class PlayerPoop : MonoBehaviour
 
     private ArcadeKart.Stats normalStats;
 
+    private bool cooldown = false;
+
+    private GameObject poopExplode;
+
     void Start()
     {
         arcadeKart = GetComponent<ArcadeKart>();
         onStartFever = true;
+        cooldown = true;
         normalStats = arcadeKart.baseStats;
+
+        throwTarget.gameObject.SetActive(false);
+
+        poopExplode = Instantiate(poopExplodePrefab);
+        
+        poopExplode.transform.SetParent(this.transform);
+        poopExplode.transform.position = this.transform.position + new Vector3(0, 0.8f, 0.45f);
+        poopExplode.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        distance = Vector3.Distance(transform.position, movingObject.position);
-
+        if (isColliding)
+        {
+            // Move the player backward for 1 second
+            StartCoroutine(MovePlayerBackward());
+        }
         // Try enter Fever Mode
         StartCoroutine(CheckFever());
-
-        // Try to throw poop
-        StartCoroutine(CheckThrowPoop());
 
         if (feverActivated)
         {
@@ -65,11 +86,21 @@ public class PlayerPoop : MonoBehaviour
             feverBar.fillAmount = feverCountdown / 5f;
         }
 
-        if (isColliding)
+        if (cooldown)
         {
-            // Move the player backward for 1 second
-            StartCoroutine(MovePlayerBackward());
+            return;
         }
+
+        distance = Vector3.Distance(transform.position, movingObject.position);
+
+        
+        // Try to throw poop
+        CheckDistance();
+        StartCoroutine(CheckThrowPoop());
+
+        
+
+       
 
     }
 
@@ -137,10 +168,27 @@ public class PlayerPoop : MonoBehaviour
         feverCheck.text = string.Empty;
 
         SetBaseStatsFromDatabase(normalStats);
+        cooldown = false;
 
     }
 
-
+    private void CheckDistance()
+    {
+        if (poopCollect >= 1) { 
+            if(distance < freezeDistance)
+            {
+                throwTarget.gameObject.SetActive(true);
+            }
+            else
+            {
+                throwTarget.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            throwTarget.gameObject.SetActive(false);
+        }
+    }
 
     // Check if the player can throw the poop
     IEnumerator CheckThrowPoop()
@@ -155,8 +203,8 @@ public class PlayerPoop : MonoBehaviour
                 if (distance < freezeDistance)
                 {
                     // Toggle freeze state
-                    isFrozen = !isFrozen;
-
+                    isFrozen = true;
+                    
                     // Start the coroutine to freeze the object for the specified duration
                     if (isFrozen)
                     {
@@ -167,6 +215,7 @@ public class PlayerPoop : MonoBehaviour
                     }
                 }
                 //StartCoroutine(ThrowPoop());
+                
             }
             else
             {
@@ -194,32 +243,39 @@ public class PlayerPoop : MonoBehaviour
     IEnumerator ThrowPoop()
     {
         //Debug.Log("Drop a poop");
+        poopUI.transform.GetChild(poopCollect).gameObject.SetActive(false);
         poopCollect -= 1;
+        poopUI.transform.GetChild(poopCollect).gameObject.SetActive(true);
+        
         poopNum.text = poopCollect.ToString();
 
-        
+        cooldown = true;
 
         Rigidbody movingObjectRb = movingObject.GetComponent<Rigidbody>();
         if (movingObjectRb != null)
         {
             Debug.Log("Poop Freeze!");
-            movingObjectRb.isKinematic = true;
+            //movingObjectRb.isKinematic = true;
+            movingObject.GetComponent<PlayerPoop>().poopExplode.SetActive(true);
+            
+            movingObject.GetComponent<ArcadeKart>().baseStats = freezeStats;
         }
 
         // Wait for the specified duration
         yield return new WaitForSeconds(freezeDuration);
-
+        movingObject.GetComponent<PlayerPoop>().poopExplode.SetActive(false);
         // Unfreeze the object
         if (movingObjectRb != null)
         {
-            movingObjectRb.isKinematic = false;
+            //movingObjectRb.isKinematic = false;
+            movingObject.GetComponent<ArcadeKart>().baseStats = normalStats;
         }
 
 
         feverCheck.text = "THROW POOP!";
         yield return new WaitForSeconds(3f);
         feverCheck.text = string.Empty;
-        
+        cooldown = false;
 
     }
 
