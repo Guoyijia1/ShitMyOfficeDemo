@@ -17,6 +17,10 @@ public class CardDebug : MonoBehaviour
     [SerializeField] private List<Sprite> cardImg = new List<Sprite>();
     [SerializeField] private List<string> jobTitles = new List<string>();
 
+    [Header("Player Rank")]
+    [SerializeField] private GameObject firstPlace;
+    [SerializeField] private GameObject secondPlace;
+
     private TMP_Text jobTimeText;
     private TMP_Text jobTitleText;
 
@@ -45,6 +49,9 @@ public class CardDebug : MonoBehaviour
         jobTimeAnim.enabled = false;
         jobTitleAnim.enabled = false;
         hasInfoUpdated = false;
+
+        firstPlace.SetActive(false);
+        secondPlace.SetActive(false);
     }
 
     // Update is called once per frame
@@ -70,6 +77,33 @@ public class CardDebug : MonoBehaviour
         yield return new WaitForSeconds(1f);
         UpdatePlayerTitle();
         jobTitleAnim.enabled = true;
+
+        StartCoroutine(GetPlayerRank());
+    }
+
+    IEnumerator GetPlayerRank()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        firstPlace.SetActive(true);
+        secondPlace.SetActive(true);
+
+
+        if(RecordPlayerTime.finishP1Time < RecordPlayerTime.finishP2Time)
+        {
+            firstPlace.GetComponent<PlayerRanking>().playerRankNum = 0;
+            secondPlace.GetComponent<PlayerRanking>().playerRankNum = 1;
+        }else if(RecordPlayerTime.finishP1Time > RecordPlayerTime.finishP2Time) {
+            firstPlace.GetComponent<PlayerRanking>().playerRankNum = 1;
+            secondPlace.GetComponent<PlayerRanking>().playerRankNum = 0;
+        }
+        else
+        {
+            firstPlace.GetComponent<PlayerRanking>().playerRankNum = 0;
+            secondPlace.GetComponent<PlayerRanking>().playerRankNum = 2;
+        }
+
+        
     }
 
     void UpdatePlayerTime()

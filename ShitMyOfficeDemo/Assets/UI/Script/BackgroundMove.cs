@@ -19,6 +19,8 @@ public class BackgroundMove : MonoBehaviour
         if(SceneManager.GetActiveScene().buildIndex == 0)
         {
             sceneChange = GameObject.Find("SceneManagement").GetComponent<SceneChange>();
+
+            GameObject.FindGameObjectWithTag("Music").GetComponent<BackGroundMusic>().PlayMusic();
         }
         
     }

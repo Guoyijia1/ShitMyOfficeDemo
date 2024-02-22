@@ -291,8 +291,8 @@ public class PlayerPoop : MonoBehaviour
 
     private IEnumerator MovePlayerBackward()
     {
-        SetBaseStatsFromDatabase(StepBackModeData());
-        GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -5f);
+        //SetBaseStatsFromDatabase(StepBackModeData());
+        GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -3f);
 
         yield return new WaitForSeconds(1f);
 
@@ -367,16 +367,16 @@ public class PlayerPoop : MonoBehaviour
         // Replace this with your actual database call to fetch NormalModeData
         ArcadeKart.Stats stepbackStats = new ArcadeKart.Stats
         {
-            TopSpeed = 0f,
+            TopSpeed = -30f,
             Acceleration = -30f,
 
-            AccelerationCurve = 4f,
-            Braking = 10f,
-            ReverseAcceleration = 5f,
-            ReverseSpeed = 5f,
-            Steer = 5f,
-            CoastingDrag = 4f,
-            Grip = .95f,
+            AccelerationCurve = 0.9f,
+            Braking = 20f,
+            ReverseAcceleration = -20f,
+            ReverseSpeed = -10f,
+            Steer = 3f,
+            CoastingDrag = 5f,
+            Grip = .97f,
             AddedGravity = 1f,
             // Add other stat assignments as needed for NormalModeData
         };

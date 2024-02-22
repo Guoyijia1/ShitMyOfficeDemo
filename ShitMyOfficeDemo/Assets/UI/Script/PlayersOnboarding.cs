@@ -25,6 +25,7 @@ public class PlayersOnboarding : MonoBehaviour
     IEnumerator NextScene()
     {
         yield return new WaitForSeconds(3f);
+        GameObject.FindGameObjectWithTag("Music").GetComponent<BackGroundMusic>().StopMusic();
         sceneChange.LoadNextScene();
     }
 }
