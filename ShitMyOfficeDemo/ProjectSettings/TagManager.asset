@@ -14,6 +14,9 @@ TagManager:
   - wall
   - targetP1
   - tagetP2
+  - GameManager
+  - JobCard
+  - End
   layers:
   - Default
   - TransparentFX

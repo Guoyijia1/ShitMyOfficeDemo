@@ -6,7 +6,7 @@ using UnityEngine;
 public class TimeCounting : MonoBehaviour
 {
     public TextMeshProUGUI timerText; // Reference to a TextMeshProUGUI component on the Canvas
-    private float elapsedTime;
+    public float elapsedTime;
     private bool countingStarted = false;
 
     void Start()

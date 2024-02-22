@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BackgroundMove : MonoBehaviour
 {
@@ -14,7 +15,12 @@ public class BackgroundMove : MonoBehaviour
     void Start()
     {
         startPos = transform.position;
-        sceneChange = GameObject.Find("SceneManagement").GetComponent<SceneChange>();
+
+        if(SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            sceneChange = GameObject.Find("SceneManagement").GetComponent<SceneChange>();
+        }
+        
     }
 
     // Update is called once per frame
@@ -27,9 +33,13 @@ public class BackgroundMove : MonoBehaviour
             transform.position = startPos;
         }
 
-        if(Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.N) || Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.M))
+        if(SceneManager.GetActiveScene().buildIndex == 0)
         {
-            sceneChange.LoadNextScene();
+            if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.N) || Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.M))
+            {
+                sceneChange.LoadNextScene();
+            }
         }
+        
     }
 }

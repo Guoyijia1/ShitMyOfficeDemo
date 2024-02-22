@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class PlayerPoop : MonoBehaviour
 {
+
     [Header("Poop Collection")]
     [SerializeField] private TMP_Text poopNum;
 
@@ -53,6 +54,7 @@ public class PlayerPoop : MonoBehaviour
 
     private GameObject poopExplode;
 
+
     void Start()
     {
         arcadeKart = GetComponent<ArcadeKart>();
@@ -72,6 +74,8 @@ public class PlayerPoop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        poopNum.text = poopCollect.ToString();
+
         if (isColliding)
         {
             // Move the player backward for 1 second
@@ -107,7 +111,7 @@ public class PlayerPoop : MonoBehaviour
     // Poop collection
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Poop") && poopCollect <= 5 && !feverActivated)
+        if (other.CompareTag("Poop") && poopCollect < 5 && !feverActivated)
         {
             poopUI.transform.GetChild(poopCollect).gameObject.SetActive(false);
         
@@ -115,6 +119,11 @@ public class PlayerPoop : MonoBehaviour
             poopUI.transform.GetChild(poopCollect).gameObject.SetActive(true);
             poopNum.text = poopCollect.ToString();
             Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("End"))
+        {
+
         }
     }
 
