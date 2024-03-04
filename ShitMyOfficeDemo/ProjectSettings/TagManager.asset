@@ -18,6 +18,7 @@ TagManager:
   - JobCard
   - End
   - Music
+  - SerialPort
   layers:
   - Default
   - TransparentFX

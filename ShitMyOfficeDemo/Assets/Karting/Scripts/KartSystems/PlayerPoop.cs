@@ -371,7 +371,7 @@ public class PlayerPoop : MonoBehaviour
             Acceleration = -30f,
 
             AccelerationCurve = 0.9f,
-            Braking = 20f,
+            Braking = 10f,
             ReverseAcceleration = -20f,
             ReverseSpeed = -10f,
             Steer = 3f,
