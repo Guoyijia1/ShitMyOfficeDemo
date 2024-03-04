@@ -3476,7 +3476,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 98103
+    m_Bits: 229175
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -10619,7 +10619,7 @@ PrefabInstance:
     - target: {fileID: 4810912518991602694, guid: 19954de30401f73428254541a9ad156e,
         type: 3}
       propertyPath: baseStats.Steer
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4810912518991602694, guid: 19954de30401f73428254541a9ad156e,
         type: 3}
@@ -10743,6 +10743,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 774352113}
+    - targetCorrespondingSourceObject: {fileID: 4810912518991602691, guid: 19954de30401f73428254541a9ad156e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 774352121}
     - targetCorrespondingSourceObject: {fileID: 4810912518991602691, guid: 19954de30401f73428254541a9ad156e,
         type: 3}
       insertIndex: -1
@@ -44283,6 +44287,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stepBackDistance: 2
+--- !u!114 &774352121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774352098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d4869a13876dd4687e7aac1dc3a37b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BounceFactor: 40
+  RotationSpeed: 5
+  CollisionLayer:
+    serializedVersion: 2
+    m_Bits: 131072
+  RayDistance: 1
+  PauseTime: 0.5
+  HeightOffset: 0
+  Angles:
+  - 30
+  - -30
+  DrawGizmos: 0
+  BounceSound: {fileID: 0}
 --- !u!1001 &778199129
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49964,12 +49993,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 2046922996}
     m_Modifications:
     - target: {fileID: 100000, guid: 71fb4b36fc973904c8f15d164c0e48ae, type: 3}
+      propertyPath: m_Layer
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 71fb4b36fc973904c8f15d164c0e48ae, type: 3}
       propertyPath: m_TagString
       value: wall
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 71fb4b36fc973904c8f15d164c0e48ae, type: 3}
       propertyPath: m_Name
       value: TrackStraightShortMeshColliderWalls
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 71fb4b36fc973904c8f15d164c0e48ae, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 71fb4b36fc973904c8f15d164c0e48ae, type: 3}
       propertyPath: m_TagString
@@ -69506,7 +69543,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 65335
+    m_Bits: 196407
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -76016,13 +76053,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4810912518991602693, guid: 19954de30401f73428254541a9ad156e,
         type: 3}
+      propertyPath: m_Mass
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810912518991602693, guid: 19954de30401f73428254541a9ad156e,
+        type: 3}
       propertyPath: m_Constraints
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4810912518991602694, guid: 19954de30401f73428254541a9ad156e,
         type: 3}
+      propertyPath: baseStats.Grip
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810912518991602694, guid: 19954de30401f73428254541a9ad156e,
+        type: 3}
       propertyPath: baseStats.Steer
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4810912518991602694, guid: 19954de30401f73428254541a9ad156e,
         type: 3}
@@ -76164,6 +76211,10 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 24159173}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4810912518991602691, guid: 19954de30401f73428254541a9ad156e,
+        type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 1910917322}
     - targetCorrespondingSourceObject: {fileID: 4810912518991602691, guid: 19954de30401f73428254541a9ad156e,
         type: 3}
       insertIndex: -1
@@ -85182,6 +85233,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1068551162}
     m_Modifications:
     - target: {fileID: 100000, guid: c9da9a4eb5561534cb8d191a9e1d31da, type: 3}
+      propertyPath: m_Layer
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: c9da9a4eb5561534cb8d191a9e1d31da, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -85192,6 +85247,10 @@ PrefabInstance:
     - target: {fileID: 100002, guid: c9da9a4eb5561534cb8d191a9e1d31da, type: 3}
       propertyPath: m_Name
       value: TrackCurveSmallMeshColliderWalls
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: c9da9a4eb5561534cb8d191a9e1d31da, type: 3}
+      propertyPath: m_Layer
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: c9da9a4eb5561534cb8d191a9e1d31da, type: 3}
       propertyPath: m_TagString
@@ -91903,13 +91962,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1630810227}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.026128065, w: 0.99965864}
-  m_LocalPosition: {x: 513.1, y: 1.19, z: 100.89627}
+  m_LocalRotation: {x: -0, y: -0, z: -0.07309647, w: 0.99732494}
+  m_LocalPosition: {x: 506.6, y: 1.8, z: 100.89627}
   m_LocalScale: {x: 7.9693303, y: 1, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1237340917}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -2.994}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -8.384}
 --- !u!54 &1630810229
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -108202,7 +108261,7 @@ GameObject:
   - component: {fileID: 1902734450}
   - component: {fileID: 1902734449}
   - component: {fileID: 1902734448}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Plane (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108741,6 +108800,31 @@ MonoBehaviour:
   TurnInputName: Hotizontal
   AccelerateButtonName: Accelerate
   BrakeButtonName: Brake
+--- !u!114 &1910917322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910917296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d4869a13876dd4687e7aac1dc3a37b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BounceFactor: 40
+  RotationSpeed: 5
+  CollisionLayer:
+    serializedVersion: 2
+    m_Bits: 131072
+  RayDistance: 1
+  PauseTime: 0.5
+  HeightOffset: 0
+  Angles:
+  - 30
+  - -30
+  DrawGizmos: 1
+  BounceSound: {fileID: 0}
 --- !u!1 &1913275869
 GameObject:
   m_ObjectHideFlags: 0

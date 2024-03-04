@@ -79,7 +79,7 @@ public class PlayerPoop : MonoBehaviour
         if (isColliding)
         {
             // Move the player backward for 1 second
-            StartCoroutine(MovePlayerBackward());
+            //StartCoroutine(MovePlayerBackward());
         }
         // Try enter Fever Mode
         StartCoroutine(CheckFever());
