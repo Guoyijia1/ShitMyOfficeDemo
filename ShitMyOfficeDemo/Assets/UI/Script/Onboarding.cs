@@ -30,14 +30,14 @@ public class Onboarding : MonoBehaviour
 
     IEnumerator PlayerSeated()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && CompareTag("player1"))
+        if ((Input.GetKeyDown(KeyCode.C) ||Input.GetKeyDown(KeyCode.V)) && CompareTag("player1"))
         {
             playerAnim.SetBool("playerSeated", true);
             player1Seated = true;
             yield return null;
             
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2) && CompareTag("player2"))
+        else if ((Input.GetKeyDown(KeyCode.N) || Input.GetKeyDown(KeyCode.M)) && CompareTag("player2"))
         {
             playerAnim.SetBool("playerSeated", true);
             player2Seated = true;
