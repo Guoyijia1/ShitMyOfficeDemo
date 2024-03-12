@@ -6,7 +6,8 @@ public class SpawnObject : MonoBehaviour
 {
 
     public GameObject SpawnPrefab; // Assign your apple Prefab in the Inspector
-    public string playerTag = "Player";
+    public string player1Tag = "player1";
+    
     public int numberOfApples = 20;
     public Transform spawnPoint;
 
@@ -14,13 +15,17 @@ public class SpawnObject : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        // Check if the collision is with an object tagged as "Player"
-        if (collision.gameObject.CompareTag(playerTag) && !hasSpawnedApples)
+        
+        
+        if (collision.gameObject.CompareTag(player1Tag) && !hasSpawnedApples)
         {
             // Spawn apples
             SpawnApples();
             hasSpawnedApples = true; // To avoid spawning apples continuously
         }
+       
+
+
     }
 
     void SpawnApples()
