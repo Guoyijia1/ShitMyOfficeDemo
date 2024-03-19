@@ -19,6 +19,7 @@ TagManager:
   - End
   - Music
   - SerialPort
+  - Restart
   layers:
   - Default
   - TransparentFX

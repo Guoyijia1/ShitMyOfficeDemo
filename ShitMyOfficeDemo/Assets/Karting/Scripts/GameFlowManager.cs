@@ -1,7 +1,7 @@
+using KartGame.KartSystems;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
-using KartGame.KartSystems;
 using UnityEngine.SceneManagement;
 
 public enum GameState{Play, Won, Lost}
@@ -48,8 +48,13 @@ public class GameFlowManager : MonoBehaviour
     string m_SceneToLoad;
     float elapsedTimeBeforeEndScene = 0;
 
+    private RecordPlayerTime recordPlayerTime;
+    private bool gameEnded;
+
     void Start()
     {
+        recordPlayerTime = transform.GetComponent<RecordPlayerTime>();
+
         if (autoFindKarts)
         {
             karts = FindObjectsOfType<ArcadeKart>();
@@ -79,7 +84,7 @@ public class GameFlowManager : MonoBehaviour
 
         //run race countdown animation
         ShowRaceCountdownAnimation();
-        StartCoroutine(ShowObjectivesRoutine());
+        //StartCoroutine(ShowObjectivesRoutine());
 
         StartCoroutine(CountdownThenStartRaceRoutine());
     }
@@ -118,70 +123,118 @@ public class GameFlowManager : MonoBehaviour
 
         if (gameState != GameState.Play)
         {
+            
+
             elapsedTimeBeforeEndScene += Time.deltaTime;
             if(elapsedTimeBeforeEndScene >= endSceneLoadDelay)
             {
+                if (!gameEnded)
+                {
+                    float timeRatio = 1 - (m_TimeLoadEndGameScene - Time.time) / endSceneLoadDelay;
+                    endGameFadeCanvasGroup.alpha = timeRatio;
 
-                float timeRatio = 1 - (m_TimeLoadEndGameScene - Time.time) / endSceneLoadDelay;
-                endGameFadeCanvasGroup.alpha = timeRatio;
 
-                float volumeRatio = Mathf.Abs(timeRatio);
-                float volume = Mathf.Clamp(1 - volumeRatio, 0, 1);
-                AudioUtility.SetMasterVolume(volume);
+
+                    float volumeRatio = Mathf.Abs(timeRatio);
+                    float volume = Mathf.Clamp(1 - volumeRatio, 0, 1);
+                    AudioUtility.SetMasterVolume(volume);
+                }
+               
 
                 // See if it's time to load the end scene (after the delay)
                 if (Time.time >= m_TimeLoadEndGameScene)
                 {
-                    SceneManager.LoadScene(m_SceneToLoad);
+
                     gameState = GameState.Play;
+                    if (SceneManager.GetActiveScene().buildIndex == 2)
+                    {
+                        SceneManager.LoadScene(m_SceneToLoad);
+                        Debug.Log(SceneManager.GetActiveScene().buildIndex);
+                        
+                        gameEnded = true;
+                        endGameFadeCanvasGroup.alpha = 0;
+                        AudioUtility.SetMasterVolume(1);
+                    }
                 }
             }
+
         }
         else
         {
-            if (m_ObjectiveManager.AreAllObjectivesCompleted())
-                EndGame(true);
+            //if (m_ObjectiveManager.AreAllObjectivesCompleted())
+            //    EndGame(true);
 
-            if (m_TimeManager.IsFinite && m_TimeManager.IsOver)
-                EndGame(false);
+            //if (m_TimeManager.IsFinite && m_TimeManager.IsOver)
+            //    EndGame(false);
+
+            if (recordPlayerTime.finishTimeP1Text != "" && recordPlayerTime.finishTimeP2Text != "")
+                EndGame();
+
         }
     }
 
-    void EndGame(bool win)
+    void EndGame()
     {
         // unlocks the cursor before leaving the scene, to be able to click buttons
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
+        //Cursor.lockState = CursorLockMode.None;
+        //Cursor.visible = true;
+        //gameEnded = true;
         m_TimeManager.StopRace();
 
         // Remember that we need to load the appropriate end scene after a delay
-        gameState = win ? GameState.Won : GameState.Lost;
+        gameState = GameState.Won;
         endGameFadeCanvasGroup.gameObject.SetActive(true);
-        if (win)
-        {
-            m_SceneToLoad = winSceneName;
-            m_TimeLoadEndGameScene = Time.time + endSceneLoadDelay + delayBeforeFadeToBlack;
+        m_SceneToLoad = winSceneName;
+        m_TimeLoadEndGameScene = Time.time + endSceneLoadDelay + delayBeforeFadeToBlack;
 
-            // play a sound on win
-            var audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.clip = victorySound;
-            audioSource.playOnAwake = false;
-            audioSource.outputAudioMixerGroup = AudioUtility.GetAudioGroup(AudioUtility.AudioGroups.HUDVictory);
-            audioSource.PlayScheduled(AudioSettings.dspTime + delayBeforeWinMessage);
+        // play a sound on win
+        //var audioSource = gameObject.AddComponent<AudioSource>();
+        //audioSource.clip = victorySound;
+        //audioSource.playOnAwake = false;
+        //audioSource.outputAudioMixerGroup = AudioUtility.GetAudioGroup(AudioUtility.AudioGroups.HUDVictory);
+        //audioSource.PlayScheduled(AudioSettings.dspTime + delayBeforeWinMessage);
 
-            // create a game message
-            winDisplayMessage.delayBeforeShowing = delayBeforeWinMessage;
-            winDisplayMessage.gameObject.SetActive(true);
-        }
-        else
-        {
-            m_SceneToLoad = loseSceneName;
-            m_TimeLoadEndGameScene = Time.time + endSceneLoadDelay + delayBeforeFadeToBlack;
-
-            // create a game message
-            loseDisplayMessage.delayBeforeShowing = delayBeforeWinMessage;
-            loseDisplayMessage.gameObject.SetActive(true);
-        }
+        // create a game message
+        //winDisplayMessage.delayBeforeShowing = delayBeforeWinMessage;
+        //winDisplayMessage.gameObject.SetActive(true);
+        
     }
+
+    //void EndGame(bool win)
+    //{
+    //    // unlocks the cursor before leaving the scene, to be able to click buttons
+    //    Cursor.lockState = CursorLockMode.None;
+    //    Cursor.visible = true;
+
+    //    m_TimeManager.StopRace();
+
+    //    // Remember that we need to load the appropriate end scene after a delay
+    //    gameState = win ? GameState.Won : GameState.Lost;
+    //    endGameFadeCanvasGroup.gameObject.SetActive(true);
+    //    if (win)
+    //    {
+    //        m_SceneToLoad = winSceneName;
+    //        m_TimeLoadEndGameScene = Time.time + endSceneLoadDelay + delayBeforeFadeToBlack;
+
+    //        // play a sound on win
+    //        var audioSource = gameObject.AddComponent<AudioSource>();
+    //        audioSource.clip = victorySound;
+    //        audioSource.playOnAwake = false;
+    //        audioSource.outputAudioMixerGroup = AudioUtility.GetAudioGroup(AudioUtility.AudioGroups.HUDVictory);
+    //        audioSource.PlayScheduled(AudioSettings.dspTime + delayBeforeWinMessage);
+
+    //        // create a game message
+    //        winDisplayMessage.delayBeforeShowing = delayBeforeWinMessage;
+    //        winDisplayMessage.gameObject.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        m_SceneToLoad = loseSceneName;
+    //        m_TimeLoadEndGameScene = Time.time + endSceneLoadDelay + delayBeforeFadeToBlack;
+
+    //        // create a game message
+    //        loseDisplayMessage.delayBeforeShowing = delayBeforeWinMessage;
+    //        loseDisplayMessage.gameObject.SetActive(true);
+    //    }
+    //}
 }
