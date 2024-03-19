@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class RecordPlayerTime : MonoBehaviour
 {
     [Header("Players Finish Time")]
-    [SerializeField] TMP_Text currentTime;
+    private TMP_Text currentTime;
     public string finishTimeP1Text;
     public string finishTimeP2Text;
     public float finishP1Time;
@@ -17,7 +17,7 @@ public class RecordPlayerTime : MonoBehaviour
     public bool p1End;
     public bool p2End;
 
-    public TimeCounting timeCounting;
+    private TimeCounting timeCounting;
 
 
 
@@ -25,10 +25,13 @@ public class RecordPlayerTime : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(transform.gameObject);
+        
+
     }
     void Start()
     {
-
+        currentTime = GameObject.FindGameObjectWithTag("Time").GetComponent<TMP_Text>();
+        timeCounting = GameObject.FindGameObjectWithTag("TimeCounting").GetComponent<TimeCounting>();
     }
 
     // Update is called once per frame
@@ -43,6 +46,7 @@ public class RecordPlayerTime : MonoBehaviour
                 p1End = false;
                 finishTimeP1Text = currentTime.text;
                 finishP1Time = timeCounting.elapsedTime;
+                Debug.Log(timeCounting.elapsedTime);
             }
 
             if (p2End)
@@ -52,7 +56,7 @@ public class RecordPlayerTime : MonoBehaviour
                 finishP2Time = timeCounting.elapsedTime;
             }
         }
-
+        
         
     }
 

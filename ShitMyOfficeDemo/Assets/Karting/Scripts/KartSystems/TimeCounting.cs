@@ -8,6 +8,7 @@ public class TimeCounting : MonoBehaviour
     public TextMeshProUGUI timerText; // Reference to a TextMeshProUGUI component on the Canvas
     public float elapsedTime;
     private bool countingStarted = false;
+    private bool startCount;
 
     void Start()
     {
@@ -24,9 +25,9 @@ public class TimeCounting : MonoBehaviour
         if (!countingStarted)
         {
             // Start counting after 3 seconds
-            if (Time.time >= 3f)
+            if (!startCount)
             {
-                countingStarted = true;
+                StartCoroutine(StartTimeCount());
             }
         }
         else
@@ -57,5 +58,12 @@ public class TimeCounting : MonoBehaviour
         string timeString = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, milliseconds);
 
         return timeString;
+    }
+
+    private IEnumerator StartTimeCount()
+    {
+        startCount = true;
+        yield return new WaitForSeconds(3f);
+        countingStarted = true;
     }
 }

@@ -120,6 +120,11 @@ public class GameFlowManager : MonoBehaviour
 
     void Update()
     {
+        if(SceneManager.GetActiveScene().buildIndex == 3)
+        {
+            endGameFadeCanvasGroup.alpha = 0;
+            AudioUtility.SetMasterVolume(1);
+        }
 
         if (gameState != GameState.Play)
         {
@@ -139,21 +144,21 @@ public class GameFlowManager : MonoBehaviour
                     float volume = Mathf.Clamp(1 - volumeRatio, 0, 1);
                     AudioUtility.SetMasterVolume(volume);
                 }
-               
+                
 
                 // See if it's time to load the end scene (after the delay)
                 if (Time.time >= m_TimeLoadEndGameScene)
                 {
 
                     gameState = GameState.Play;
+                    //m_TimeManager.StopRace();
                     if (SceneManager.GetActiveScene().buildIndex == 2)
                     {
                         SceneManager.LoadScene(m_SceneToLoad);
-                        Debug.Log(SceneManager.GetActiveScene().buildIndex);
                         
+
                         gameEnded = true;
-                        endGameFadeCanvasGroup.alpha = 0;
-                        AudioUtility.SetMasterVolume(1);
+                        
                     }
                 }
             }

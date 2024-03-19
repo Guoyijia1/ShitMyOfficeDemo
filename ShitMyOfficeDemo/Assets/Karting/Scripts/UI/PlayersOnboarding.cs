@@ -17,7 +17,7 @@ public class PlayersOnboarding : MonoBehaviour
     {
         if (player1.player1Seated && player2.player2Seated)
         {
-            Debug.Log("true");
+            //Debug.Log("true");
             StartCoroutine(NextScene());
         }
     }

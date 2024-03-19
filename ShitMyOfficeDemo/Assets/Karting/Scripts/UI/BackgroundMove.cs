@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 public class BackgroundMove : MonoBehaviour
 {
 
-    private float patternMoveSpeed = 0.6f;
+    private float patternMoveSpeed = 0.3f;
     private Vector3 startPos;
-    private float offsetValue = 70f;
+    public float offsetValue = 70f;
 
     private SceneChange sceneChange;
     // Start is called before the first frame update
