@@ -1063,7 +1063,7 @@ MonoBehaviour:
   playerTimeText: 
   playerNum: 0
   playerTime: 0
-  defaultTime: 70
+  defaultTime: 90
   titleOffset:
   - 2
   - 1.4
@@ -1603,7 +1603,7 @@ MonoBehaviour:
   playerTimeText: 
   playerNum: 1
   playerTime: 0
-  defaultTime: 70
+  defaultTime: 90
   titleOffset:
   - 2
   - 1.4

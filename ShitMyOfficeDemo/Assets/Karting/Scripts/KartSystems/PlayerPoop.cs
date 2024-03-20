@@ -59,6 +59,7 @@ public class PlayerPoop : MonoBehaviour
     private bool cooldown = false;
 
     private GameObject poopExplode;
+    private bool startNoFeverDemo;
 
 
     void Start()
@@ -92,6 +93,15 @@ public class PlayerPoop : MonoBehaviour
         }
         // Try enter Fever Mode
         StartCoroutine(CheckFever());
+
+        if(poopCollect == 5 && startNoFeverDemo)
+        {
+            DemoAnimRestart(P1Press, P2Press);
+        }
+        else
+        {
+            DemoAnimEnd(P1Press, P2Press);
+        }
 
         if (feverActivated)
         {
@@ -171,6 +181,8 @@ public class PlayerPoop : MonoBehaviour
     // Fever mode triggered
     IEnumerator Fever()
     {
+        DemoAnimEnd(P1Press, P2Press);
+        startNoFeverDemo = true;
         poopCollect -= 5;
         feverActivated = true;
         SetBaseStatsFromDatabase(this.feverStats);
