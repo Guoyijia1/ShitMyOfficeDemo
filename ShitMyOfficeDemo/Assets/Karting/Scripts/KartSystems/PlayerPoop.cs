@@ -42,6 +42,12 @@ public class PlayerPoop : MonoBehaviour
     [SerializeField] private float feverCountdown = 5f;
     [SerializeField] private bool onStartFever;
 
+    [Header("Demo Anim")]
+    [SerializeField] private Animator P1Tap;
+    [SerializeField] private Animator P2Tap;
+    [SerializeField] private Animator P1Press;
+    [SerializeField] private Animator P2Press;
+
     private bool feverActivated = false;
 
     private bool isFrozen = false;
@@ -69,6 +75,9 @@ public class PlayerPoop : MonoBehaviour
         poopExplode.transform.SetParent(this.transform);
         poopExplode.transform.position = this.transform.position + new Vector3(0, 0.8f, 0.45f);
         poopExplode.SetActive(false);
+
+        P1Tap.SetBool("animEnd", true);
+        P2Tap.SetBool("animEnd", true);
     }
 
     // Update is called once per frame
@@ -181,21 +190,37 @@ public class PlayerPoop : MonoBehaviour
 
     }
 
+    private void DemoAnimEnd(Animator anim1, Animator anim2)
+    {
+        if(CompareTag("player1")) anim1.SetBool("animEnd", true);
+        if (CompareTag("player2")) anim2.SetBool("animEnd", true);
+    }
+
+    private void DemoAnimRestart(Animator anim1, Animator anim2)
+    {
+        if (CompareTag("player1")) anim1.SetBool("animEnd", false);
+        if (CompareTag("player2")) anim2.SetBool("animEnd", false);
+    }
+
     private void CheckDistance()
     {
         if (poopCollect >= 1) { 
             if(distance < freezeDistance)
             {
                 throwTarget.gameObject.SetActive(true);
+                DemoAnimRestart(P1Tap, P2Tap);
+                
             }
             else
             {
                 throwTarget.gameObject.SetActive(false);
+                DemoAnimEnd(P1Tap, P2Tap);
             }
         }
         else
         {
             throwTarget.gameObject.SetActive(false);
+            DemoAnimEnd(P1Tap, P2Tap);
         }
     }
 
@@ -219,7 +244,7 @@ public class PlayerPoop : MonoBehaviour
                     {
                         //Debug.Log("Poop Freeze!");
                         //StartCoroutine(FreezeObjectForDuration());
-                        
+                        DemoAnimEnd(P1Tap, P2Tap);
                         StartCoroutine(ThrowPoop());
                     }
                 }

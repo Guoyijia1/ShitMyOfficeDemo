@@ -51,9 +51,12 @@ public class GameFlowManager : MonoBehaviour
     private RecordPlayerTime recordPlayerTime;
     private bool gameEnded;
 
+    private Animator finishAnim;
+
     void Start()
     {
         recordPlayerTime = transform.GetComponent<RecordPlayerTime>();
+        finishAnim = GameObject.FindGameObjectWithTag("Finish").GetComponent<Animator>();
 
         if (autoFindKarts)
         {
@@ -128,8 +131,7 @@ public class GameFlowManager : MonoBehaviour
 
         if (gameState != GameState.Play)
         {
-            
-
+            if(SceneManager.GetActiveScene().buildIndex == 2) finishAnim.SetTrigger("finishNow");
             elapsedTimeBeforeEndScene += Time.deltaTime;
             if(elapsedTimeBeforeEndScene >= endSceneLoadDelay)
             {
